@@ -1,26 +1,28 @@
 @echo off
-REM Automated Windows setup script for FinBotik
 
-REM Create necessary directories
-echo Creating required directories...
-mkdir "%USERPROFILE%\FinBotik\finbotik_env"
-mkdir "%USERPROFILE%\FinBotik\finbotik_logs"
+:: Set up essential directories
+mkdir C:\FinBotik\Data
+mkdir C:\FinBotik\Scripts
 
-REM Copy environment file if it exists
-if exist ".env" (
-    echo Copying environment file...
-    copy ".env" "%USERPROFILE%\FinBotik\finbotik_env\.env"
-) else (
-    echo No .env file found to copy!
+:: Check for dependencies
+echo Checking for Python...
+python --version 1>nul 2>&1
+IF %ERRORLEVEL% NEQ 0 (
+    echo Python is not installed. Please install Python before running this script.
+    exit /b 1
 )
 
-REM Setup instructions
-echo .
-echo FinBotik Setup Instructions:
-echo 1. Open Command Prompt as Administrator.
-echo 2. Navigate to the FinBotik directory.
-echo 3. Run this script: SETUP_WINDOWS.bat
-echo 4. Follow any on-screen instructions.
-echo .
-echo Setup completed!
-pause
+echo Checking for pip...
+pip --version 1>nul 2>&1
+IF %ERRORLEVEL% NEQ 0 (
+    echo Pip is not installed. Please install pip before running this script.
+    exit /b 1
+)
+
+:: Install required packages
+pip install -r C:\FinBotik\requirements.txt
+
+:: Generate startup scripts
+copy C:\FinBotik\Scripts\startup.bat C:\FinBotik\Data\startup.bat
+
+echo Setup completed successfully!
