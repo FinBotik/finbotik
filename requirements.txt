@@ -1,0 +1,9 @@
+# Define your project's dependencies here
+
+flask
+sqlalchemy
+requests
+openai
+helius
+python-telegram-bot
+dotenv
